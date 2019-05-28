@@ -97,18 +97,25 @@ export default {
     onSubmit() {
       if (this.form.name) {
         this.$refs.formRef.validate(valid => {
+          this.currentPage4 = 1;
           this.tableData = this.sourceData.filter(
             c => c.name === this.form.name
           );
         });
       }
     },
+    getTableData() {
+      this.tableData = this.tableData = this.sourceData.slice(
+        (this.currentPage4 - 1) * this.pageSize,
+        this.currentPage4 * this.pageSize
+      );
+    },
     add() {
       this.dialogVisible = true;
     },
     reset() {
       this.$refs.formRef.resetFields();
-      this.tableData = this.sourceData;
+      this.getTableData();
     },
     handleClose() {},
     dialogConfirm() {
@@ -123,10 +130,8 @@ export default {
       this.pageSize = val;
     },
     handleCurrentChange(val) {
-      this.tableData = this.sourceData.slice(
-        (val - 1) * this.pageSize,
-        val * this.pageSize
-      );
+      this.currentPage4 = val
+      this.getTableData();
     }
   }
 };
